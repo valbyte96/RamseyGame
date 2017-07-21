@@ -68,9 +68,10 @@ class RGraph:
             p_x = p.getX()
             p_y = p.getY()
             if x>p_x-c and x<p_x+c and y>p_y-c and y<p_y+c:
-                print("is inside")
                 p.color('red')
-                break
+                return True, p.getCenter()
+        return False, None
+            
 
 
 

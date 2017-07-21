@@ -18,12 +18,27 @@ P = [] #list of points
 
 def main():
     win = GraphWin('Ramsey', WIDTH, HEIGHT)
-    test = RGraph(N, R, WIDTH/2, HEIGHT/2)
-    test.draw(win)
+    graph = RGraph(N, R, WIDTH/2, HEIGHT/2)
+    graph.draw(win)
 
-    while True:
-        clickPoint = win.getMouse()
-        test.isTouched(clickPoint)
+    while True: #Game loop
+        while True: #user turn 
+            clickPoint = win.getMouse()
+            ans1, p1 = graph.isTouched(clickPoint)
+            if ans1:
+                while True:
+                    clickPoint = win.getMouse()
+                    ans2, p2 = graph.isTouched(clickPoint)
+                    if ans2:
+                        line = Line(p1,p2)
+                        line.draw(win)
+                        break
+                    
+                    
+                    
+                
+
+        #while True: #computer turn 
 
     
 
