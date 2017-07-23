@@ -12,20 +12,24 @@ DESCRIPTION: A class that creates an edgeless polygon of n points
 
 from graphics import *
 import math
+import random
 
 
 class Node:
-    def __init__(self, p, r):
+    def __init__(self, p, r, i):
         self.p = p 
         self.x = p.getX()
         self.y = p.getY()
         self.r = r
+        self.id = i #id number 
         self.circle = Circle(p,r)
     def draw(self, win):
         self.circle.setFill('black')
         self.circle.draw(win)
     def getCenter(self):
         return self.p
+    def getID(self):
+        return self.id
     def getX(self):
         return self.x
     def getY(self):
@@ -44,7 +48,7 @@ class RGraph:
         self.y = y
         self.d_rads = 6.28319/n # change in radians (2pi/n)
         self.verts = [] # stores verts
-        self.c = 5 #small circle radius 
+        self.c = 5 #small circle radius
 
     def draw(self, win):
         # init
@@ -55,21 +59,29 @@ class RGraph:
             x = R*math.cos(rad) + self.x
             y = R*math.sin(rad) + self.y
             p = Point(x,y)
-            c = Node(p, l)
+            c = Node(p, l, i)
             self.verts.append(c) # store point
             c.draw(win)
             rad+=self.d_rads # adjust angle
+
+    def getRand(self):
+        r1 = random.randint(0, self.n-1)
+        r2 = random.randint(0, self.n-1)
+        while r1==r2:
+            r2 = random.randint(0, self.n-1)
+        return self.verts[r1], self.verts[r2]
+            
             
     def isTouched(self, checkPoint):
         x = checkPoint.getX()
         y = checkPoint.getY()
         c = self.c
-        for p in self.verts:
-            p_x = p.getX()
-            p_y = p.getY()
-            if x>p_x-c and x<p_x+c and y>p_y-c and y<p_y+c:
-                p.color('red')
-                return True, p.getCenter()
+        for v in self.verts:
+            v_x = v.getX()
+            v_y = v.getY()
+            if x>v_x-c and x<v_x+c and y>v_y-c and y<v_y+c:
+                v.color('red')
+s                return True, v
         return False, None
             
 
